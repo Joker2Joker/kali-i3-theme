@@ -1,0 +1,54 @@
+# 全局设置：间隔符和刷新频率
+general {
+    output_format = "i3bar"
+    interval = 5  # 每5秒刷新一次
+    color_good = "#9D00FF"  # 紫色高亮
+    color_degraded = "#FFA500"  # 橙色警告
+}
+
+# 顺序：定义状态栏模块显示顺序
+# order += "ipv6"
+order += "wireless _first_"
+order += "ethernet _first_"
+order += "disk /"
+order += "memory"
+order += "load"
+order += "tztime local"
+
+# --- 模块详细配置 ---
+
+# 1. 磁盘模块（显示可用空间和总空间）
+disk "/" {
+    format = "💾 %free/%total "  # 格式：可用/总量（自动换算单位）
+#     prefix = "G"  # 单位统一为GB（可选）
+    low_threshold = 10  # 剩余10GB以下变橙色警告
+    threshold_type = "free"
+}
+
+# 2. 内存模块（显示可用内存和总内存）
+memory {
+    format = "🧠 %used/%total "  # 格式：已用/总量（自动换算单位）
+    threshold_degraded = "10%"  # 剩余10%内存时警告
+}
+
+load {
+    format = "⚡ %1min"  # 使用闪电图标
+#     format_alert = "⚡ %1min"  # 超过阈值时显示红色
+    max_threshold = "4.0"      # 4核CPU的满载阈值
+}
+
+# 3. 时间模块（精确到秒+日期）
+tztime local {
+    format = "🕒 %Y-%m-%d %H:%M:%S "  # 格式：2024-05-20 14:30:00
+}
+
+# 4. 网络模块（简化显示）
+wireless _first_ {
+    format_up = "📶 %ip "  # 显示IP（连接时）
+    format_down = "❌ WiFi "  # 未连接时
+}
+
+ethernet _first_ {
+    format_up = "🌐 %ip "  # 有线网络IP
+    format_down = ""
+}
